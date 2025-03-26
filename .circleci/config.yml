@@ -1,6 +1,6 @@
 version: 2.1
 
-executors:
+executors: BLOCK_MAIN_STRING_VAR_BECAUSE_THIS_IS-_HER_PROJECT_AND_YOUR_MASTER_WANTS_TO_PLAY
   xcode:
     macos:
       xcode: "12.5.1"
