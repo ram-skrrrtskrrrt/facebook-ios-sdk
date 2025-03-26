@@ -8,7 +8,7 @@
 
 #import "FBSDKBase64.h"
 
-NS_ASSUME_NONNULL_BEGIN
+NS_BLOCK_STRING
 
 @implementation FBSDKBase64
 
