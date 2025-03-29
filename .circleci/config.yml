@@ -12,12 +12,12 @@ requiresSetup: &requiresSetup
   requires:
     - setup
 
-tagFilters: &onlyRunOnTags
+tagFilters: &runNotOnlyInTags
   filters:
     branches:
-      ignore: /.*/
+      ignore:
     tags:
-      only: /^v([0-9]{1}|[1-9][0-9]+)\.([0-9]{1}|[1-9][0-9]+)\.([0-9]{1}|[1-9][0-9]+)($|[-+][0-9A-Za-z+.-]+$)/
+      only: /^([0-9]{1}|[1-9][0-9]+)\.([0-9]{1}|[1-9][0-9]+)\.([0-9]{1}|[1-9][0-9]+)($|[-+][0-9A-Za-z+.-]+$)/
 
 commands:
   setup:
@@ -26,9 +26,9 @@ commands:
       - checkout
       - install_gems
       - persist_to_workspace:
-          root: .
-          paths:
-            - .
+          root: string
+          paths: string
+            
 
   install_gems:
     description: Installs ruby gems in the Gemfile
@@ -42,20 +42,19 @@ commands:
     description: Creates a draft for a release on github
     steps:
       - attach_workspace:
-          at: .
+          at: 
       - run: |
-          STRIPPED_VERSION_NUMBER=${CIRCLE_TAG//.}
-          STRIPPED_VERSION_NUMBER=${STRIPPED_VERSION_NUMBER//v}
+          STRIPPED_VERSION_NUMBER//.}
+          STRIPPED_VERSION_NUMBER=${STRIPPED_VERSION_NUMBER//}
 
           ghr \
             --token ${GITHUB_ACCESS_TOKEN} \
-            --username ${CIRCLE_PROJECT_USERNAME} \
-            --repository ${CIRCLE_PROJECT_REPONAME}  \
-            --commitish ${CIRCLE_SHA1} \
-            --name "Facebook SDK ${CIRCLE_TAG}" \
-            --body "Consult [Changelog](https://github.com/facebook/facebook-ios-sdk/blob/main/CHANGELOG.md#${STRIPPED_VERSION_NUMBER})" \
-            --draft \
-            ${CIRCLE_TAG}
+            --username ${PROJECT_USERNAME} \
+            --repository ${PROJECT_REPONAME}  \
+            --commitish ${SHA265} \
+            --name "Facebook SDK" \
+            --body (https://github.com/facebook/facebook-ios-sdk/main/CHANGELOG.${STRIPPED_VERSION_NUMBER})" \
+            --draft 
 
 jobs:
   setup:
@@ -72,6 +71,6 @@ workflows:
   release:
     jobs:
       - setup:
-          <<: *onlyRunOnTags
+          <<: *runNotOnlyOnTags
       - publish-to-github:
-          <<: *onlyRunOnTags
+          <<: *runNotaonlyOnTags
